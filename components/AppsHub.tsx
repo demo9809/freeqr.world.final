@@ -1,12 +1,13 @@
 
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import jsQR from 'jsqr';
+import JsBarcode from 'jsbarcode';
 import {
     ScanLine, FileImage, Calculator, Link2, Grid3X3, Zap, Image as ImageIcon, Palette,
     Upload, Copy, Check, AlertTriangle, X, ArrowLeft, Download, Trash2, Settings, RefreshCw,
     Layers, Smartphone, Monitor, Layout, Shuffle, Wand2, Shapes, Move, Maximize, RotateCw,
     Globe, Tag, MousePointer2, Target, Search, Type, Activity, MonitorPlay, Circle, Plus, Code2,
-    Crop, Printer, Sliders, Eye, EyeOff, Loader2, ArrowRight, MessageCircle
+    Crop, Printer, Sliders, Eye, EyeOff, Loader2, ArrowRight, MessageCircle, Barcode
 } from 'lucide-react';
 
 // Types for our Apps
@@ -30,6 +31,7 @@ const TOOLS: AppTool[] = [
     { id: 'webp', title: 'Image to WebP', desc: 'Convert PNG/JPG to WebP locally for faster websites.', icon: FileImage, status: 'active', badge: 'New' },
     { id: 'social_bg', title: 'Social Backgrounds', desc: 'Generate gradients and meshes for Instagram/LinkedIn.', icon: ImageIcon, status: 'active', badge: 'New' },
     { id: 'whatsapp', title: 'WhatsApp Link', desc: 'Create direct chat links with pre-filled messages.', icon: MessageCircle, status: 'active', badge: 'New' },
+    { id: 'barcode', title: 'Barcode Generator', desc: 'Generate Code128, EAN-13, UPC, Code39 and more — download as SVG or PNG.', icon: Barcode, status: 'active', badge: 'New' },
     { id: 'aspect', title: 'Ratio Calculator', desc: 'Calculate aspect ratios for banners and social posts.', icon: Calculator, status: 'coming_soon' }
 ];
 
@@ -348,6 +350,297 @@ const WhatsAppGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     );
 };
 
+// ─── Barcode Generator ────────────────────────────────────────────────────────
+
+const BARCODE_FORMATS = [
+    { id: 'CODE128',    label: 'Code 128',      hint: 'Alphanumeric — supports all ASCII characters', example: 'FREEQR-2024' },
+    { id: 'EAN13',      label: 'EAN-13',        hint: '12 digits (check digit added automatically)', example: '590123412345' },
+    { id: 'EAN8',       label: 'EAN-8',         hint: '7 digits (check digit added automatically)', example: '9638507' },
+    { id: 'UPC',        label: 'UPC-A',         hint: '11 digits (check digit added automatically)', example: '01234567890' },
+    { id: 'CODE39',     label: 'Code 39',       hint: 'Uppercase letters, digits, and - . $ / + % SPACE', example: 'INV-001-XR' },
+    { id: 'ITF14',      label: 'ITF-14',        hint: '13 digits — used for retail shipping cartons', example: '1234567890123' },
+    { id: 'MSI',        label: 'MSI Plessey',   hint: 'Digits only — common in inventory systems', example: '1234567890' },
+    { id: 'pharmacode', label: 'Pharmacode',    hint: 'Integer 3–131070 — pharmaceutical industry', example: '12345' },
+];
+
+const BC_EXAMPLES: Record<string, { label: string; value: string }[]> = {
+    CODE128:    [{ label: '📦 Product SKU', value: 'SKU-10294-B' }, { label: '🧾 Order ID', value: 'ORD-2024-7821' }, { label: '🔢 Serial No.', value: 'SN-A1B2C3D4' }],
+    EAN13:      [{ label: '📚 ISBN-13', value: '978020161622' }, { label: '🥫 Food item', value: '590123412345' }, { label: '🏷️ Generic', value: '400638133393' }],
+    EAN8:       [{ label: '🎁 Small pack', value: '9638507' }, { label: '🏷️ Generic', value: '1234567' }],
+    UPC:        [{ label: '🛒 Grocery', value: '01234567890' }, { label: '📱 Electronics', value: '07891234567' }],
+    CODE39:     [{ label: '📋 Inventory', value: 'INV-001' }, { label: '🏷️ Asset tag', value: 'ASSET-XR9' }, { label: '📂 File code', value: 'FILE-2024-A' }],
+    ITF14:      [{ label: '📦 Shipping', value: '1234567890123' }, { label: '🏬 Retail box', value: '0614141000418' }],
+    MSI:        [{ label: '🏪 Stock', value: '5500123' }, { label: '🔢 Generic', value: '1234567890' }],
+    pharmacode: [{ label: '💊 Sample 1', value: '1234' }, { label: '💊 Sample 2', value: '98765' }],
+};
+
+const BarcodeGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
+    const [bcFormat, setBcFormat] = useState('CODE128');
+    const [bcValue, setBcValue] = useState('FREEQR-2024');
+    const [bcWidth, setBcWidth] = useState(2);
+    const [bcHeight, setBcHeight] = useState(100);
+    const [bcMargin, setBcMargin] = useState(10);
+    const [bcFg, setBcFg] = useState('#000000');
+    const [bcBg, setBcBg] = useState('#ffffff');
+    const [bcShowText, setBcShowText] = useState(true);
+    const [bcFontSize, setBcFontSize] = useState(16);
+    const [bcError, setBcError] = useState<string | null>(null);
+    const bcSvgRef = useRef<SVGSVGElement>(null);
+
+    useEffect(() => {
+        if (!bcSvgRef.current || !bcValue.trim()) return;
+        try {
+            JsBarcode(bcSvgRef.current, bcValue, {
+                format: bcFormat,
+                width: bcWidth,
+                height: bcHeight,
+                margin: bcMargin,
+                lineColor: bcFg,
+                background: bcBg,
+                displayValue: bcShowText,
+                fontSize: bcFontSize,
+                textMargin: 6,
+                font: 'monospace',
+            });
+            setBcError(null);
+        } catch (e: unknown) {
+            setBcError((e as Error).message?.replace(/^JsBarcode:\s*/i, '') ?? 'Invalid value for this format');
+        }
+    }, [bcFormat, bcValue, bcWidth, bcHeight, bcMargin, bcFg, bcBg, bcShowText, bcFontSize]);
+
+    const downloadSvg = () => {
+        if (!bcSvgRef.current || bcError) return;
+        const blob = new Blob([new XMLSerializer().serializeToString(bcSvgRef.current)], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
+        Object.assign(document.createElement('a'), { href: url, download: `barcode-${bcFormat}-${Date.now()}.svg` }).click();
+        URL.revokeObjectURL(url);
+    };
+
+    const downloadPng = () => {
+        if (!bcSvgRef.current || bcError) return;
+        const svgStr = new XMLSerializer().serializeToString(bcSvgRef.current);
+        const w = bcSvgRef.current.width.baseVal.value * 2;
+        const h = bcSvgRef.current.height.baseVal.value * 2;
+        const canvas = Object.assign(document.createElement('canvas'), { width: w, height: h });
+        const ctx = canvas.getContext('2d')!;
+        const url = URL.createObjectURL(new Blob([svgStr], { type: 'image/svg+xml' }));
+        const img = new Image();
+        img.onload = () => {
+            ctx.drawImage(img, 0, 0, w, h);
+            URL.revokeObjectURL(url);
+            Object.assign(document.createElement('a'), { href: canvas.toDataURL('image/png'), download: `barcode-${bcFormat}-${Date.now()}.png` }).click();
+        };
+        img.src = url;
+    };
+
+    const currentFmt = BARCODE_FORMATS.find(f => f.id === bcFormat)!;
+    const examples = BC_EXAMPLES[bcFormat] ?? [];
+
+    return (
+        <div className="flex flex-col lg:flex-row gap-8 h-full animate-in fade-in slide-in-from-bottom-8 duration-500">
+            {/* ── Left: Controls ── */}
+            <div className="flex-1 space-y-6 overflow-y-auto pr-1">
+                {/* Header */}
+                <div className="flex items-center gap-4 mb-2">
+                    <button onClick={onBack} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-500 hover:text-slate-700">
+                        <ArrowLeft size={24} />
+                    </button>
+                    <div>
+                        <h2 className="text-2xl font-bold text-slate-800">Barcode Generator</h2>
+                        <p className="text-sm text-slate-400 mt-0.5">Vector barcodes — no server, fully in-browser</p>
+                    </div>
+                </div>
+
+                {/* Format & Data */}
+                <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+                    <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                        <Barcode size={16} className="text-indigo-500" /> Format & Data
+                    </h3>
+
+                    {/* Format picker */}
+                    <div>
+                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Barcode Type</label>
+                        <div className="grid grid-cols-2 gap-2">
+                            {BARCODE_FORMATS.map(f => (
+                                <button
+                                    key={f.id}
+                                    onClick={() => { setBcFormat(f.id); setBcValue(f.example); setBcError(null); }}
+                                    className={`px-3 py-2.5 rounded-xl text-xs font-bold border transition-all text-left ${bcFormat === f.id ? 'bg-indigo-600 text-white border-indigo-600 shadow-md' : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-indigo-300 hover:text-indigo-600'}`}
+                                >
+                                    {f.label}
+                                </button>
+                            ))}
+                        </div>
+                        <p className="text-xs text-slate-400 mt-3 leading-relaxed">{currentFmt.hint}</p>
+                    </div>
+
+                    {/* Value input */}
+                    <div>
+                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Value to Encode</label>
+                        <input
+                            type="text"
+                            value={bcValue}
+                            onChange={e => setBcValue(e.target.value)}
+                            placeholder={currentFmt.example}
+                            className={`w-full bg-slate-50 border rounded-xl px-4 py-3 text-sm font-mono text-slate-900 outline-none focus:ring-2 placeholder:text-slate-400 transition-colors ${bcError ? 'border-red-300 focus:ring-red-500/20 focus:border-red-500' : 'border-slate-200 focus:ring-indigo-500/20 focus:border-indigo-500'}`}
+                        />
+                        {bcError && (
+                            <p className="text-xs text-red-500 mt-2 flex items-center gap-1.5 font-medium">
+                                <AlertTriangle size={12} className="flex-shrink-0" /> {bcError}
+                            </p>
+                        )}
+                    </div>
+
+                    {/* Quick examples */}
+                    {examples.length > 0 && (
+                        <div>
+                            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Quick Examples</label>
+                            <div className="flex flex-wrap gap-2">
+                                {examples.map((ex, i) => (
+                                    <button
+                                        key={i}
+                                        onClick={() => { setBcValue(ex.value); setBcError(null); }}
+                                        className="px-3 py-1.5 bg-slate-50 hover:bg-indigo-50 text-slate-600 hover:text-indigo-600 rounded-lg text-xs font-medium transition-all border border-slate-200 hover:border-indigo-200"
+                                    >
+                                        {ex.label}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                {/* Appearance */}
+                <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+                    <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                        <Palette size={16} className="text-indigo-500" /> Appearance
+                    </h3>
+
+                    {/* Colors */}
+                    <div className="grid grid-cols-2 gap-4">
+                        {[
+                            { label: 'Bar Color', value: bcFg, setter: setBcFg },
+                            { label: 'Background', value: bcBg, setter: setBcBg },
+                        ].map(({ label, value, setter }) => (
+                            <div key={label}>
+                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">{label}</label>
+                                <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200 hover:border-indigo-300 transition-colors">
+                                    <input type="color" value={value} onChange={e => setter(e.target.value)} className="w-8 h-8 rounded cursor-pointer border-0 bg-transparent flex-shrink-0" />
+                                    <span className="text-sm font-mono text-slate-600">{value.toUpperCase()}</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Sliders */}
+                    <div className="space-y-5">
+                        {([
+                            { label: 'Bar Width', value: bcWidth, setter: setBcWidth, min: 1, max: 4, step: 0.5, unit: 'px' },
+                            { label: 'Height', value: bcHeight, setter: setBcHeight, min: 40, max: 200, step: 5, unit: 'px' },
+                            { label: 'Margin', value: bcMargin, setter: setBcMargin, min: 0, max: 40, step: 2, unit: 'px' },
+                        ] as const).map(({ label, value, setter, min, max, step, unit }) => (
+                            <div key={label}>
+                                <div className="flex justify-between items-center mb-2">
+                                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">{label}</label>
+                                    <span className="text-xs font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-md tabular-nums">{value}{unit}</span>
+                                </div>
+                                <input
+                                    type="range" min={min} max={max} step={step} value={value}
+                                    onChange={e => (setter as (v: number) => void)(Number(e.target.value))}
+                                    className="w-full h-1.5 rounded-full accent-indigo-600"
+                                />
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Show text toggle */}
+                    <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-200">
+                        <div>
+                            <p className="text-sm font-semibold text-slate-700">Show Text Below</p>
+                            <p className="text-xs text-slate-400 mt-0.5">Display the encoded value beneath the bars</p>
+                        </div>
+                        <button
+                            onClick={() => setBcShowText(v => !v)}
+                            className={`w-11 h-6 rounded-full transition-colors relative flex-shrink-0 ${bcShowText ? 'bg-indigo-600' : 'bg-slate-300'}`}
+                        >
+                            <span className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-transform ${bcShowText ? 'translate-x-5' : 'translate-x-0.5'}`} />
+                        </button>
+                    </div>
+
+                    {bcShowText && (
+                        <div>
+                            <div className="flex justify-between items-center mb-2">
+                                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Font Size</label>
+                                <span className="text-xs font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-md tabular-nums">{bcFontSize}px</span>
+                            </div>
+                            <input type="range" min={10} max={28} step={1} value={bcFontSize} onChange={e => setBcFontSize(Number(e.target.value))} className="w-full h-1.5 rounded-full accent-indigo-600" />
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            {/* ── Right: Preview + Download ── */}
+            <div className="w-full lg:w-[420px] flex flex-col gap-6">
+                <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col sticky top-6">
+                    <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+                        <Eye size={20} className="text-indigo-500" /> Live Preview
+                    </h3>
+
+                    {/* Barcode preview */}
+                    <div
+                        className="flex-1 flex items-center justify-center min-h-[200px] rounded-2xl border border-dashed border-slate-200 p-6 overflow-hidden transition-colors"
+                        style={{ background: bcBg }}
+                    >
+                        {bcError ? (
+                            <div className="text-center p-4">
+                                <AlertTriangle size={32} className="text-red-400 mx-auto mb-3" />
+                                <p className="text-sm text-red-500 font-semibold">Invalid input</p>
+                                <p className="text-xs text-slate-400 mt-1 max-w-[200px] leading-relaxed">{bcError}</p>
+                            </div>
+                        ) : (
+                            <svg ref={bcSvgRef} className="max-w-full" />
+                        )}
+                    </div>
+
+                    {/* Format badge */}
+                    <div className="mt-4 flex items-center gap-2">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 text-indigo-700 rounded-lg text-xs font-bold border border-indigo-100">
+                            <Barcode size={12} /> {currentFmt.label}
+                        </span>
+                        {!bcError && bcSvgRef.current && (
+                            <span className="text-xs text-slate-400 font-medium">
+                                {bcSvgRef.current.width?.baseVal?.value}×{bcSvgRef.current.height?.baseVal?.value}px
+                            </span>
+                        )}
+                    </div>
+
+                    {/* Download buttons */}
+                    <div className="mt-6 space-y-3">
+                        <div className="grid grid-cols-2 gap-3">
+                            <button
+                                onClick={downloadSvg}
+                                disabled={!!bcError || !bcValue.trim()}
+                                className="flex items-center justify-center gap-2 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-sm font-bold transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                            >
+                                <Download size={16} /> SVG
+                            </button>
+                            <button
+                                onClick={downloadPng}
+                                disabled={!!bcError || !bcValue.trim()}
+                                className="flex items-center justify-center gap-2 py-3 bg-slate-900 hover:bg-indigo-600 text-white rounded-xl text-sm font-bold transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 disabled:opacity-40 disabled:cursor-not-allowed"
+                            >
+                                <Download size={16} /> PNG
+                            </button>
+                        </div>
+                        <p className="text-xs text-slate-400 text-center">Runs entirely in your browser — nothing uploaded</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+// ─── AppsHub (main) ───────────────────────────────────────────────────────────
 const AppsHub: React.FC = () => {
     const activeToolState = useState<string | null>(null);
     const [activeTool, setActiveTool] = activeToolState;
@@ -2175,6 +2468,7 @@ const AppsHub: React.FC = () => {
     return (
         <div className="flex-1 h-full overflow-y-auto bg-slate-50 p-6 lg:p-12 custom-scrollbar">
             {activeTool === 'batch' ? <BatchQRGenerator onBack={() => setActiveTool(null)} /> :
+            activeTool === 'barcode' ? <BarcodeGenerator onBack={() => setActiveTool(null)} /> :
             activeTool === 'scanner' ? renderScanner() :
                 activeTool === 'webp' ? renderWebPConverter() :
                     activeTool === 'social_bg' ? renderSocialBgGenerator() :
