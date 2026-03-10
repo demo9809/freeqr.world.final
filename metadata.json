@@ -1,0 +1,5 @@
+{
+  "name": "GenAI QR Studio",
+  "description": "An advanced, AI-powered QR code generator with branding capabilities, custom styles, and Gemini-assisted design suggestions.",
+  "requestFramePermissions": []
+}
