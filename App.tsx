@@ -24,7 +24,8 @@ const TYPE_LABELS: Partial<Record<QRContentType, string>> = {
   [QRContentType.PAYPAL]: 'PayPal',
   [QRContentType.CRYPTO]: 'Crypto',
   [QRContentType.SOCIAL]: 'Social',
-  [QRContentType.APP_STORE]: 'App Store',
+  [QRContentType.APP_STORE]: 'iOS App Store',
+  [QRContentType.PLAY_STORE]: 'Play Store',
   [QRContentType.BARCODE_QR]: 'Barcode QR',
 };
 

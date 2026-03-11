@@ -16,6 +16,7 @@ export enum QRContentType {
   CRYPTO = 'CRYPTO',
   SOCIAL = 'SOCIAL',
   APP_STORE = 'APP_STORE',
+  PLAY_STORE = 'PLAY_STORE',
   BARCODE_QR = 'BARCODE_QR'
 }
 

@@ -34,6 +34,13 @@ interface ControlPanelProps {
     onClearHistory: () => void;
 }
 
+// Custom Google Play Store icon — filled play-button triangle
+const PlayStoreIcon: React.FC<{ size?: number; className?: string }> = ({ size = 20, className }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+        <path d="M3.18 23.76c.38.21.84.22 1.24.02L19.1 13.5c.36-.2.59-.58.59-.99s-.23-.79-.59-1L4.42.24C4.02.03 3.56.04 3.18.25A1.17 1.17 0 0 0 2.57 1.3v21.4c0 .44.23.84.61 1.06z" />
+    </svg>
+);
+
 // Custom filled barcode icon — clearly visible at any size/color
 const BarcodeQRIcon: React.FC<{ size?: number; className?: string }> = ({ size = 20, className }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
@@ -53,7 +60,7 @@ const CATEGORIES = [
     {
         id: 'essential',
         label: 'Essentials',
-        types: [QRContentType.URL, QRContentType.TEXT, QRContentType.WIFI, QRContentType.APP_STORE]
+        types: [QRContentType.URL, QRContentType.TEXT, QRContentType.WIFI, QRContentType.APP_STORE, QRContentType.PLAY_STORE]
     },
     {
         id: 'contact',
@@ -93,7 +100,8 @@ const TYPE_CONFIG: Record<QRContentType, { icon: React.ElementType, label: strin
     [QRContentType.PAYPAL]: { icon: DollarSign, label: 'PayPal', desc: 'Global payments' },
     [QRContentType.CRYPTO]: { icon: Bitcoin, label: 'Crypto', desc: 'Wallet address' },
     [QRContentType.SOCIAL]: { icon: Share2, label: 'Social', desc: 'Profile link' },
-    [QRContentType.APP_STORE]: { icon: Smartphone, label: 'App Store Link', desc: 'Smart iOS & Android redirect' },
+    [QRContentType.APP_STORE]: { icon: Apple, label: 'iOS App Store', desc: 'Apple App Store link' },
+    [QRContentType.PLAY_STORE]: { icon: PlayStoreIcon, label: 'Play Store', desc: 'Google Play link' },
     [QRContentType.BARCODE_QR]: { icon: BarcodeQRIcon, label: 'Barcode QR', desc: 'Scan QR → see barcode' },
 };
 
@@ -471,11 +479,10 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ content, setContent, design
                     newVal = `BEGIN:VCARD\nVERSION:3.0\nN:${v.lastName};${v.firstName};;;\nFN:${v.firstName} ${v.lastName}\nORG:${v.org}\nTITLE:${v.title}\nTEL:${v.phone}\nEMAIL:${v.email}\nADR:;;${v.street};${v.city};;;${v.country}\nURL:${v.url}\nEND:VCARD`;
                 }
                 break;
+            // APP_STORE and PLAY_STORE use content.value directly (set by their URL inputs)
             case QRContentType.APP_STORE:
-                if (content.appStore) {
-                    const { iosUrl, androidUrl, activeTab } = content.appStore;
-                    newVal = (activeTab === 'android' ? androidUrl : iosUrl) || '';
-                }
+            case QRContentType.PLAY_STORE:
+                newVal = content.value;
                 break;
             case QRContentType.BARCODE_QR:
                 if (content.barcodeQR?.data) {
@@ -534,7 +541,6 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ content, setContent, design
             paypal: t === QRContentType.PAYPAL ? { email: '', amount: '', currency: 'USD', note: '' } : content.paypal,
             crypto: t === QRContentType.CRYPTO ? { coin: 'bitcoin', address: '', amount: '' } : content.crypto,
             social: t === QRContentType.SOCIAL ? { platform: 'twitter', handle: '' } : content.social,
-            appStore: t === QRContentType.APP_STORE ? { iosUrl: '', androidUrl: '', fallbackUrl: '', activeTab: 'ios' as const } : content.appStore,
             barcodeQR: t === QRContentType.BARCODE_QR ? { data: '', format: 'CODE128' } : content.barcodeQR,
         });
 
@@ -854,65 +860,51 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ content, setContent, design
             case QRContentType.APP_STORE:
                 return (
                     <div className="space-y-6">
-                        <div>
-                            <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Generate QR for</label>
-                            {renderToggleGroup([
-                                { value: 'ios', label: 'iOS', icon: Apple },
-                                { value: 'android', label: 'Android', icon: Smartphone },
-                            ], content.appStore?.activeTab || 'ios', (v) => update({ appStore: { ...content.appStore!, activeTab: v as 'ios' | 'android' } }))}
+                        <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-2xl border border-blue-100">
+                            <div className="w-9 h-9 bg-[#007AFF] rounded-xl flex items-center justify-center flex-shrink-0">
+                                <Apple size={18} className="text-white" />
+                            </div>
+                            <div>
+                                <p className="text-xs font-bold text-blue-900">iOS App Store</p>
+                                <p className="text-[11px] text-blue-600 mt-0.5">Generates a QR that opens your app on the Apple App Store.</p>
+                            </div>
                         </div>
-
-                        {(content.appStore?.activeTab || 'ios') === 'ios' ? (
-                            <InputGroup label="iOS App Store URL" icon={Apple}>
-                                <input
-                                    type="url"
-                                    value={content.appStore?.iosUrl || ''}
-                                    onChange={(e) => update({ appStore: { ...content.appStore!, iosUrl: e.target.value } })}
-                                    className={inputWithIconClass}
-                                    placeholder="https://apps.apple.com/app/id..."
-                                    autoFocus
-                                />
-                            </InputGroup>
-                        ) : (
-                            <InputGroup label="Android Play Store URL" icon={Smartphone}>
-                                <input
-                                    type="url"
-                                    value={content.appStore?.androidUrl || ''}
-                                    onChange={(e) => update({ appStore: { ...content.appStore!, androidUrl: e.target.value } })}
-                                    className={inputWithIconClass}
-                                    placeholder="https://play.google.com/store/apps/details?id=..."
-                                    autoFocus
-                                />
-                            </InputGroup>
-                        )}
-
-                        <p className="text-[10px] text-slate-400 pl-1">Switch the toggle to generate a separate QR code for each platform. Print both side-by-side for best coverage.</p>
-
-                        {(content.appStore?.iosUrl || content.appStore?.androidUrl) && (
-                            <>
-                                <div className="h-px bg-slate-100" />
-                                <div>
-                                    <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Smart Redirect (Optional)</p>
-                                    <p className="text-[10px] text-slate-400 mb-3 pl-1">Download a redirect page that auto-detects the device. Host it anywhere and point one QR to it.</p>
-                                    <button
-                                        onClick={() => {
-                                            const { iosUrl, androidUrl, fallbackUrl } = content.appStore!;
-                                            const fallback = fallbackUrl || iosUrl || androidUrl || '';
-                                            const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Get the App</title><script>var u=navigator.userAgent;if(/iPhone|iPad|iPod/i.test(u)){location.replace("${iosUrl || fallback}");}else if(/Android/i.test(u)){location.replace("${androidUrl || fallback}");}else{location.replace("${fallback}");}` + `<\/script></head><body style="font-family:sans-serif;text-align:center;padding:40px;color:#555"><p>Redirecting to the app store...</p></body></html>`;
-                                            const blob = new Blob([html], { type: 'text/html' });
-                                            const a = document.createElement('a');
-                                            a.href = URL.createObjectURL(blob);
-                                            a.download = 'app-redirect.html';
-                                            a.click();
-                                        }}
-                                        className="w-full flex items-center justify-center gap-2 py-3 px-4 border-2 border-dashed border-slate-200 rounded-xl text-slate-500 text-xs font-semibold hover:bg-slate-50 hover:border-slate-300 transition-colors"
-                                    >
-                                        <Download size={14} />
-                                        Download redirect.html
-                                    </button>
-                                </div>
-                            </>
-                        )}
+                        <InputGroup label="App Store URL" icon={Apple}>
+                            <input
+                                type="url"
+                                value={content.value}
+                                onChange={(e) => update({ value: e.target.value })}
+                                className={inputWithIconClass}
+                                placeholder="https://apps.apple.com/app/id..."
+                                autoFocus
+                            />
+                        </InputGroup>
+                        <p className="text-[10px] text-slate-400 pl-1">Paste your App Store app link. Use the Play Store type for an Android-specific QR.</p>
+                    </div>
+                );
+            case QRContentType.PLAY_STORE:
+                return (
+                    <div className="space-y-6">
+                        <div className="flex items-center gap-3 p-4 bg-green-50 rounded-2xl border border-green-100">
+                            <div className="w-9 h-9 bg-[#34A853] rounded-xl flex items-center justify-center flex-shrink-0">
+                                <PlayStoreIcon size={18} className="text-white" />
+                            </div>
+                            <div>
+                                <p className="text-xs font-bold text-green-900">Google Play Store</p>
+                                <p className="text-[11px] text-green-600 mt-0.5">Generates a QR that opens your app on Google Play.</p>
+                            </div>
+                        </div>
+                        <InputGroup label="Play Store URL" icon={PlayStoreIcon}>
+                            <input
+                                type="url"
+                                value={content.value}
+                                onChange={(e) => update({ value: e.target.value })}
+                                className={inputWithIconClass}
+                                placeholder="https://play.google.com/store/apps/details?id=..."
+                                autoFocus
+                            />
+                        </InputGroup>
+                        <p className="text-[10px] text-slate-400 pl-1">Paste your Google Play app link. Use the iOS App Store type for an iPhone-specific QR.</p>
                     </div>
                 );
             case QRContentType.BARCODE_QR: {
