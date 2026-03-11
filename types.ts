@@ -15,7 +15,8 @@ export enum QRContentType {
   PAYPAL = 'PAYPAL',
   CRYPTO = 'CRYPTO',
   SOCIAL = 'SOCIAL',
-  APP_STORE = 'APP_STORE'
+  APP_STORE = 'APP_STORE',
+  BARCODE_QR = 'BARCODE_QR'
 }
 
 export enum QRModuleStyle {
@@ -102,6 +103,8 @@ export interface QRContentState {
   crypto?: { coin: 'bitcoin' | 'ethereum' | 'other'; address: string; amount: string };
   social?: { platform: 'twitter' | 'facebook' | 'instagram' | 'linkedin' | 'youtube'; handle: string };
   appStore?: { iosUrl: string; androidUrl: string; fallbackUrl: string; activeTab: 'ios' | 'android' };
+  // Barcode QR — encodes a URL that renders a barcode when scanned
+  barcodeQR?: { data: string; format: string; };
 }
 
 export interface QRHistoryEntry {

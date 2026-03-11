@@ -5,6 +5,7 @@ import { getBrandConfig } from '../services/brandAssets';
 import { getModulePath, getFinderPatternPath, isFinderPattern } from '../services/qrUtils';
 import AppsHub from './AppsHub';
 import QRCode from 'qrcode';
+import JsBarcode from 'jsbarcode';
 import {
     Type, Link, Mail, Wifi, Phone, User, MapPin,
     Palette, Image as ImageIcon, Wand2, Loader2,
@@ -14,7 +15,7 @@ import {
     Crop, LayoutTemplate, Info, Github, Code2, Heart, ShieldCheck, Zap, Infinity, Ban, ArrowRight, CheckCircle2, HelpCircle, Map,
     RotateCcw, ToggleLeft, ToggleRight, AlertTriangle, Smartphone, Camera, Award, FileImage, Settings,
     ShoppingBag, Coffee, MessageCircle, Navigation, LayoutGrid, X, Search, MoreHorizontal, QrCode,
-    History, Trash2, RotateCw, Star, Apple, Download, Clock
+    History, Trash2, RotateCw, Star, Apple, Download, Clock, Barcode, Scan
 } from 'lucide-react';
 import QRCodeLib from 'qrcode';
 
@@ -54,6 +55,11 @@ const CATEGORIES = [
         id: 'misc',
         label: 'Location & Event',
         types: [QRContentType.GEO, QRContentType.EVENT]
+    },
+    {
+        id: 'advanced',
+        label: 'Advanced',
+        types: [QRContentType.BARCODE_QR]
     }
 ];
 
@@ -74,6 +80,7 @@ const TYPE_CONFIG: Record<QRContentType, { icon: React.ElementType, label: strin
     [QRContentType.CRYPTO]: { icon: Bitcoin, label: 'Crypto', desc: 'Wallet address' },
     [QRContentType.SOCIAL]: { icon: Share2, label: 'Social', desc: 'Profile link' },
     [QRContentType.APP_STORE]: { icon: Smartphone, label: 'App Store Link', desc: 'Smart iOS & Android redirect' },
+    [QRContentType.BARCODE_QR]: { icon: Barcode, label: 'Barcode QR', desc: 'Scan QR → see barcode' },
 };
 
 // --- Mini QR Preview Component ---
@@ -301,6 +308,50 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ history, onRestore, onDelet
     );
 };
 
+// ── Barcode inline preview sub-component ──────────────────────────────────────
+const BarcodeInlinePreview: React.FC<{ data: string; format: string }> = ({ data, format }) => {
+    const svgRef = useRef<SVGSVGElement>(null);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (!svgRef.current || !data.trim()) return;
+        try {
+            JsBarcode(svgRef.current, data, {
+                format,
+                width: 1.5,
+                height: 60,
+                displayValue: true,
+                fontSize: 12,
+                margin: 8,
+                background: '#ffffff',
+                lineColor: '#1e293b',
+            });
+            setError(null);
+        } catch (e: unknown) {
+            setError((e as Error).message?.replace(/^JsBarcode:\s*/i, '') ?? 'Invalid');
+        }
+    }, [data, format]);
+
+    if (!data.trim()) return (
+        <div className="flex items-center justify-center h-[90px] bg-slate-50 rounded-xl border border-dashed border-slate-200">
+            <p className="text-xs text-slate-400">Enter barcode data to preview</p>
+        </div>
+    );
+
+    if (error) return (
+        <div className="flex items-center justify-center h-[90px] bg-red-50 rounded-xl border border-red-200">
+            <p className="text-xs text-red-500 font-medium px-3 text-center">{error}</p>
+        </div>
+    );
+
+    return (
+        <div className="flex items-center justify-center bg-white rounded-xl border border-slate-200 overflow-hidden py-2">
+            <svg ref={svgRef} className="max-w-full" />
+        </div>
+    );
+};
+// ──────────────────────────────────────────────────────────────────────────────
+
 const ControlPanel: React.FC<ControlPanelProps> = ({ content, setContent, design, setDesign, activeMode, setActiveMode, onReset, history, onSaveToHistory, onRestoreHistory, onDeleteHistory, onClearHistory }) => {
     const [isTypeSelectorOpen, setIsTypeSelectorOpen] = useState(false);
 
@@ -412,12 +463,19 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ content, setContent, design
                     newVal = (activeTab === 'android' ? androidUrl : iosUrl) || '';
                 }
                 break;
+            case QRContentType.BARCODE_QR:
+                if (content.barcodeQR?.data) {
+                    const base = `${window.location.origin}/barcode-viewer.html`;
+                    const encoded = btoa(unescape(encodeURIComponent(content.barcodeQR.data)));
+                    newVal = `${base}?d=${encoded}&f=${content.barcodeQR.format || 'CODE128'}`;
+                }
+                break;
         }
 
         if (newVal !== content.value) {
             update({ value: newVal });
         }
-    }, [content.type, content.wifi, content.email, content.phone, content.sms, content.whatsapp, content.telegram, content.geo, content.event, content.upi, content.paypal, content.crypto, content.social, content.vcard, content.appStore]);
+    }, [content.type, content.wifi, content.email, content.phone, content.sms, content.whatsapp, content.telegram, content.geo, content.event, content.upi, content.paypal, content.crypto, content.social, content.vcard, content.appStore, content.barcodeQR]);
 
 
 
@@ -448,7 +506,8 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ content, setContent, design
             paypal: t === QRContentType.PAYPAL ? { email: '', amount: '', currency: 'USD', note: '' } : content.paypal,
             crypto: t === QRContentType.CRYPTO ? { coin: 'bitcoin', address: '', amount: '' } : content.crypto,
             social: t === QRContentType.SOCIAL ? { platform: 'twitter', handle: '' } : content.social,
-            appStore: t === QRContentType.APP_STORE ? { iosUrl: '', androidUrl: '', fallbackUrl: '', activeTab: 'ios' as const } : content.appStore
+            appStore: t === QRContentType.APP_STORE ? { iosUrl: '', androidUrl: '', fallbackUrl: '', activeTab: 'ios' as const } : content.appStore,
+            barcodeQR: t === QRContentType.BARCODE_QR ? { data: '', format: 'CODE128' } : content.barcodeQR,
         });
 
         applyAutoBrand(t);
@@ -828,6 +887,95 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ content, setContent, design
                         )}
                     </div>
                 );
+            case QRContentType.BARCODE_QR: {
+                const BC_FORMATS = [
+                    { id: 'CODE128', label: 'Code 128', hint: 'All ASCII — universal' },
+                    { id: 'EAN13',   label: 'EAN-13',   hint: '12 digits + check' },
+                    { id: 'EAN8',    label: 'EAN-8',    hint: '7 digits + check' },
+                    { id: 'UPC',     label: 'UPC-A',    hint: '11 digits + check' },
+                    { id: 'CODE39',  label: 'Code 39',  hint: 'Uppercase + digits' },
+                    { id: 'ITF14',   label: 'ITF-14',   hint: '13 digits, shipping' },
+                ];
+                const currentFmt = BC_FORMATS.find(f => f.id === (content.barcodeQR?.format || 'CODE128'))!;
+                const previewUrl = content.barcodeQR?.data
+                    ? `${window.location.origin}/barcode-viewer.html?d=${btoa(unescape(encodeURIComponent(content.barcodeQR.data)))}&f=${content.barcodeQR?.format || 'CODE128'}`
+                    : '';
+                return (
+                    <div className="space-y-6">
+                        {/* How it works */}
+                        <div className="flex gap-3 p-4 bg-indigo-50 rounded-2xl border border-indigo-100">
+                            <Scan size={18} className="text-indigo-500 flex-shrink-0 mt-0.5" />
+                            <div>
+                                <p className="text-xs font-bold text-indigo-800 mb-1">How it works</p>
+                                <p className="text-[11px] text-indigo-600 leading-relaxed">
+                                    This QR encodes a link. When scanned, the phone opens a page that displays the full barcode — great for product labels, menus, and logistics.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Format picker */}
+                        <div>
+                            <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-3 ml-1">Barcode Format</label>
+                            <div className="grid grid-cols-3 gap-2">
+                                {BC_FORMATS.map(f => (
+                                    <button
+                                        key={f.id}
+                                        onClick={() => update({ barcodeQR: { ...content.barcodeQR!, format: f.id } })}
+                                        className={`px-2 py-2.5 rounded-xl border text-xs font-bold transition-all text-center leading-tight ${
+                                            (content.barcodeQR?.format || 'CODE128') === f.id
+                                                ? 'bg-indigo-600 text-white border-indigo-600 shadow-md'
+                                                : 'bg-white text-slate-600 border-slate-200 hover:border-indigo-300 hover:text-indigo-600'
+                                        }`}
+                                    >
+                                        <span className="block">{f.label}</span>
+                                        <span className={`block text-[9px] font-normal mt-0.5 ${(content.barcodeQR?.format || 'CODE128') === f.id ? 'text-indigo-200' : 'text-slate-400'}`}>{f.hint}</span>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Data input */}
+                        <InputGroup label="Barcode Data" icon={Barcode}>
+                            <input
+                                type="text"
+                                value={content.barcodeQR?.data || ''}
+                                onChange={(e) => update({ barcodeQR: { ...content.barcodeQR!, data: e.target.value } })}
+                                className={inputWithIconClass}
+                                placeholder={currentFmt.hint}
+                                autoFocus
+                            />
+                        </InputGroup>
+
+                        {/* Inline barcode preview */}
+                        <div>
+                            <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Barcode Preview</label>
+                            <BarcodeInlinePreview
+                                data={content.barcodeQR?.data || ''}
+                                format={content.barcodeQR?.format || 'CODE128'}
+                            />
+                        </div>
+
+                        {/* Encoded URL preview */}
+                        {previewUrl && (
+                            <div>
+                                <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">QR Encodes This URL</label>
+                                <div className="flex items-center gap-2 p-3 bg-slate-50 rounded-xl border border-slate-200 overflow-hidden">
+                                    <Globe size={13} className="text-slate-400 flex-shrink-0" />
+                                    <p className="text-[10px] font-mono text-slate-500 truncate flex-1">{previewUrl}</p>
+                                    <a
+                                        href={previewUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex-shrink-0 text-indigo-500 hover:text-indigo-700 text-[10px] font-bold"
+                                    >
+                                        Test ↗
+                                    </a>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                );
+            }
             default:
                 const isPhone = content.type === QRContentType.PHONE || content.type === QRContentType.SMS || content.type === QRContentType.WHATSAPP;
                 const isMsg = content.type === QRContentType.SMS || content.type === QRContentType.WHATSAPP;

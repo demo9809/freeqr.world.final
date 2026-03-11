@@ -48,6 +48,9 @@ const LOGOS = {
   APP_STORE: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#007AFF" d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>`,
 
   SOCIAL: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#6366f1" d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>`,
+
+  // ── Barcode QR ──────────────────────────────────────────────────────────────
+  BARCODE_QR: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="1" y="3" width="2" height="18" fill="#ffffff"/><rect x="4" y="3" width="1" height="18" fill="#ffffff"/><rect x="6" y="3" width="3" height="18" fill="#ffffff"/><rect x="10" y="3" width="1" height="18" fill="#ffffff"/><rect x="12" y="3" width="2" height="18" fill="#ffffff"/><rect x="15" y="3" width="1" height="18" fill="#ffffff"/><rect x="17" y="3" width="3" height="18" fill="#ffffff"/><rect x="21" y="3" width="2" height="18" fill="#ffffff"/></svg>`,
 };
 
 interface BrandConfig {
@@ -128,6 +131,9 @@ export const getBrandConfig = (type: QRContentType, subType?: string): BrandConf
 
     case QRContentType.APP_STORE:
       return { ...DEFAULT_STYLE, fgColor: '#007AFF', eyeStyle: QREyeStyle.CIRCLE, moduleStyle: QRModuleStyle.ROUNDED, logoUrl: createSvgDataUri(LOGOS.APP_STORE) };
+
+    case QRContentType.BARCODE_QR:
+      return { ...DEFAULT_STYLE, fgColor: '#1e293b', bgColor: '#ffffff', eyeStyle: QREyeStyle.SQUARE, moduleStyle: QRModuleStyle.SQUARE, logoUrl: createSvgDataUri(LOGOS.BARCODE_QR) };
 
     default:
       return DEFAULT_STYLE;

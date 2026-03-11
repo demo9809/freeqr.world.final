@@ -25,6 +25,7 @@ const TYPE_LABELS: Partial<Record<QRContentType, string>> = {
   [QRContentType.CRYPTO]: 'Crypto',
   [QRContentType.SOCIAL]: 'Social',
   [QRContentType.APP_STORE]: 'App Store',
+  [QRContentType.BARCODE_QR]: 'Barcode QR',
 };
 
 const generateLabel = (content: QRContentState): string => {
