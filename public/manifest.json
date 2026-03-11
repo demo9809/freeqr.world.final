@@ -1,0 +1,88 @@
+{
+  "name": "FreeQR — Free QR Code Generator",
+  "short_name": "FreeQR",
+  "description": "Free QR code generator for URL, WiFi, vCard, WhatsApp, UPI & 15+ types. No signup, no ads, no expiry. Download PNG or SVG.",
+  "id": "/",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f8fafc",
+  "theme_color": "#4f46e5",
+  "lang": "en-US",
+  "dir": "ltr",
+  "categories": ["utilities", "productivity", "business"],
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "FreeQR — QR Code Generator on desktop"
+    },
+    {
+      "src": "/screenshots/mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "FreeQR on mobile"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "URL QR Code",
+      "short_name": "URL QR",
+      "description": "Generate a QR code for any URL",
+      "url": "/?type=url&source=shortcut",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "WiFi QR Code",
+      "short_name": "WiFi QR",
+      "description": "Share WiFi credentials via QR code",
+      "url": "/?type=wifi&source=shortcut",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "vCard QR Code",
+      "short_name": "vCard QR",
+      "description": "Create a digital business card QR code",
+      "url": "/?type=vcard&source=shortcut",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

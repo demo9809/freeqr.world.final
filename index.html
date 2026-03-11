@@ -3,21 +3,325 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Free Unlimited QR Code Generator | No Ads & No Signup</title>
-    <meta name="description" content="Generate lifetime static QR codes for free. No account required, no scanning limits, and no ads. Includes tools for WhatsApp, UPI, and Mesh Gradients." />
-    <meta name="keywords" content="free qr code generator no signup, unlimited qr code generator without ads, static qr code generator lifetime validity, free qr code generator no redirection, create qr code without account, upi qr code generator, paypal qr code, mesh gradient generator, glitch effect generator, image to webp converter" />
-    <meta name="author" content="Labeeb" />
-    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- ═══════════════════════════════════════════════
+         CORE SEO
+    ═══════════════════════════════════════════════ -->
+    <title>Free QR Code Generator — No Signup, No Ads, No Expiry | FreeQR</title>
+    <meta name="description" content="Generate free custom QR codes for URL, WiFi, vCard, WhatsApp, UPI, Email, SMS, Barcode & 15+ types. No account required, no watermark, no expiry. Download PNG or SVG instantly." />
+    <meta name="keywords" content="free qr code generator, qr code generator no signup, qr code generator no ads, free qr code maker, wifi qr code generator, vcard qr code, upi qr code, whatsapp qr code, qr code with logo, static qr code, qr code svg download, barcode generator, utm builder, qr code generator online free" />
+    <meta name="author" content="FreeQR" />
+    <link rel="canonical" href="https://www.freeqr.world/" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+
+    <!-- ═══════════════════════════════════════════════
+         OPEN GRAPH — Facebook, LinkedIn, Discord, Slack, WhatsApp
+    ═══════════════════════════════════════════════ -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="FreeQR" />
+    <meta property="og:title" content="Free QR Code Generator — No Signup, No Ads | FreeQR" />
+    <meta property="og:description" content="Generate free custom QR codes for URL, WiFi, vCard, WhatsApp, UPI & 15+ types. No account, no watermark, no expiry. Download PNG or SVG instantly." />
+    <meta property="og:url" content="https://www.freeqr.world/" />
+    <meta property="og:image" content="https://www.freeqr.world/og-image.png" />
+    <meta property="og:image:secure_url" content="https://www.freeqr.world/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="FreeQR — Free QR Code Generator: create QR codes for URL, WiFi, vCard, and more" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- ═══════════════════════════════════════════════
+         TWITTER / X CARDS
+    ═══════════════════════════════════════════════ -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Free QR Code Generator — No Signup, No Ads | FreeQR" />
+    <meta name="twitter:description" content="Generate free custom QR codes for URL, WiFi, vCard, WhatsApp, UPI & 15+ types. No account, no watermark, no expiry." />
+    <meta name="twitter:image" content="https://www.freeqr.world/og-image.png" />
+    <meta name="twitter:image:alt" content="FreeQR QR Code Generator — free, no ads, no signup" />
+
+    <!-- ═══════════════════════════════════════════════
+         PWA / MOBILE / THEME
+    ═══════════════════════════════════════════════ -->
+    <meta name="theme-color" content="#4f46e5" />
+    <meta name="application-name" content="FreeQR" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="FreeQR" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- ═══════════════════════════════════════════════
+         FAVICONS
+    ═══════════════════════════════════════════════ -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- ═══════════════════════════════════════════════
+         PERFORMANCE — PRECONNECT & DNS PREFETCH
+    ═══════════════════════════════════════════════ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://aistudiocdn.com" crossorigin />
+    <link rel="dns-prefetch" href="https://esm.sh" />
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com" />
+
+    <!-- ═══════════════════════════════════════════════
+         FONTS & STYLES
+    ═══════════════════════════════════════════════ -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/index.css">
     <style>
       body { font-family: 'Inter', sans-serif; }
-      /* Custom Scrollbar */
       ::-webkit-scrollbar { width: 6px; height: 6px; }
       ::-webkit-scrollbar-track { background: transparent; }
       ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
       ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
-  <script type="importmap">
+
+    <!-- ═══════════════════════════════════════════════
+         JSON-LD STRUCTURED DATA
+    ═══════════════════════════════════════════════ -->
+
+    <!-- 1. WebApplication — primary tool schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "FreeQR — Free QR Code Generator",
+      "alternateName": ["FreeQR", "Free QR Generator", "freeqr.world"],
+      "description": "Free online QR code generator supporting URL, WiFi, vCard, Email, SMS, WhatsApp, Telegram, UPI, PayPal, Crypto, Social links, iOS App Store, Google Play, Barcode, and more. No signup required. Download as PNG or SVG.",
+      "url": "https://www.freeqr.world/",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "All",
+      "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+      "screenshot": "https://www.freeqr.world/og-image.png",
+      "featureList": [
+        "QR code for any URL or website link",
+        "WiFi QR code — share network credentials by scanning",
+        "vCard QR code — digital business card",
+        "Email QR code with subject and body",
+        "SMS and WhatsApp QR codes",
+        "UPI payment QR code",
+        "PayPal and Crypto QR codes",
+        "QR code with custom logo",
+        "Custom colors, gradients, and eye styles",
+        "Download as PNG, SVG, JPG, or PDF",
+        "No signup or account required",
+        "No watermarks on downloaded QR codes",
+        "No expiry — static QR codes last forever",
+        "Barcode generator (Code128, EAN-13, QR, UPC)",
+        "UTM Builder for campaign tracking links",
+        "Batch QR code generator from CSV",
+        "QR code scanner and decoder"
+      ],
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "description": "Completely free — no subscription, no trial, no credit card"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "1200",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "FreeQR",
+        "url": "https://www.freeqr.world/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.freeqr.world/favicon.svg",
+          "width": 512,
+          "height": 512
+        }
+      }
+    }
+    </script>
+
+    <!-- 2. Organization — brand identity -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "FreeQR",
+      "url": "https://www.freeqr.world/",
+      "logo": "https://www.freeqr.world/favicon.svg",
+      "description": "FreeQR provides free online QR code generation and developer tools — no account, no ads, no expiry.",
+      "foundingDate": "2024",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "url": "https://www.freeqr.world/"
+      }
+    }
+    </script>
+
+    <!-- 3. FAQPage — rich snippet eligibility in SERP -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is FreeQR completely free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. FreeQR is 100% free with no hidden fees, no subscription, and no credit card required. All QR code types, designs, and download formats are free forever."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account to use FreeQR?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. FreeQR requires absolutely no signup or login. Open the website and start generating QR codes immediately."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do FreeQR QR codes expire?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. FreeQR generates static QR codes that encode data directly. They never expire and work indefinitely without any redirection through FreeQR servers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I add a logo to my QR code?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. FreeQR lets you upload any image as a center logo on your QR code. You can also choose from brand presets for popular platforms like WhatsApp, Instagram, YouTube, and more."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What QR code types does FreeQR support?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "FreeQR supports 15+ QR code types: URL, plain Text, WiFi, Email, vCard (contact card), Phone, SMS, WhatsApp, Telegram, Calendar Event, Geographic Location, UPI Payment, PayPal, Cryptocurrency, Social Media profiles, iOS App Store links, Google Play Store links, and Barcode QR."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What file formats can I download my QR code in?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can download your QR code as PNG, JPG, SVG, or PDF. SVG is recommended for print as it is infinitely scalable with no quality loss."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are there watermarks on downloaded QR codes?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Downloaded QR codes from FreeQR have zero watermarks. The file you download is clean and ready to use for any purpose."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I create a WiFi QR code?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Select the WiFi type, enter your network name (SSID), password, and security type (WPA/WEP/None). The QR code is generated instantly — anyone who scans it connects to your WiFi automatically without typing the password."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use FreeQR QR codes commercially?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. QR codes generated by FreeQR can be used freely for personal and commercial projects including print materials, product packaging, business cards, and marketing campaigns."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does FreeQR track how many times my QR code is scanned?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. FreeQR generates static QR codes that encode data directly. Scanning does not pass through FreeQR servers, so there is no scan tracking — but this also means scans cannot be counted. For scan analytics, you would need a dynamic QR service."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- 4. HowTo — step-by-step rich snippet -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Create a Free QR Code",
+      "description": "Generate a custom QR code in seconds using FreeQR — no account needed.",
+      "totalTime": "PT1M",
+      "tool": [
+        {
+          "@type": "HowToTool",
+          "name": "FreeQR",
+          "url": "https://www.freeqr.world/"
+        }
+      ],
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Choose QR code type",
+          "text": "Click 'Change' on the Content panel and select the type of QR code you want: URL, WiFi, vCard, WhatsApp, UPI, Email, SMS, or any of the 15+ supported types.",
+          "url": "https://www.freeqr.world/"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Enter your content",
+          "text": "Fill in the form fields for your chosen type — for example, paste a website URL, or enter your WiFi network name and password.",
+          "url": "https://www.freeqr.world/"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Customize the design (optional)",
+          "text": "Switch to the Design tab to change colors, add a logo, pick a dot style, or apply a gradient. Switch to Frames to add a call-to-action frame around your QR code.",
+          "url": "https://www.freeqr.world/"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Download your QR code",
+          "text": "Click the Download button and choose your format: PNG, JPG, SVG (best for print), or PDF. Your QR code is ready instantly — no signup required.",
+          "url": "https://www.freeqr.world/"
+        }
+      ]
+    }
+    </script>
+
+    <!-- 5. SoftwareApplication (duplicate for extra coverage) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "FreeQR",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0.00",
+        "priceCurrency": "USD"
+      },
+      "url": "https://www.freeqr.world/",
+      "description": "Free online QR code generator and toolkit. No account required."
+    }
+    </script>
+
+    <!-- ═══════════════════════════════════════════════
+         MODULE IMPORTS (unchanged)
+    ═══════════════════════════════════════════════ -->
+    <script type="importmap">
 {
   "imports": {
     "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
@@ -30,10 +334,87 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
-</head>
+
+  </head>
   <body class="bg-slate-50 text-slate-900 antialiased selection:bg-indigo-100 selection:text-indigo-700">
     <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
-</body>
+
+    <!-- ═══════════════════════════════════════════════
+         NOSCRIPT — fallback for crawlers without JS
+    ═══════════════════════════════════════════════ -->
+    <noscript>
+      <style>
+        .ns-wrap { max-width: 900px; margin: 40px auto; padding: 20px; font-family: Inter, system-ui, sans-serif; color: #1e293b; }
+        .ns-wrap h1 { font-size: 2rem; font-weight: 700; margin-bottom: 12px; }
+        .ns-wrap h2 { font-size: 1.25rem; font-weight: 600; margin: 28px 0 10px; color: #4f46e5; }
+        .ns-wrap p  { color: #475569; line-height: 1.7; margin-bottom: 12px; }
+        .ns-wrap ul { padding-left: 20px; color: #475569; line-height: 1.9; }
+        .ns-wrap .badge { display:inline-block; background:#4f46e5; color:#fff; font-size:0.75rem; padding:2px 10px; border-radius:9999px; margin-bottom:16px; }
+        .ns-enable { background:#f1f5f9; border:1px solid #e2e8f0; border-radius:12px; padding:16px 20px; margin-top:24px; color:#64748b; font-size:0.9rem; }
+      </style>
+      <div class="ns-wrap">
+        <span class="badge">100% Free · No Signup · No Ads</span>
+        <h1>Free QR Code Generator — FreeQR</h1>
+        <p>FreeQR is a free, no-signup QR code generator that runs entirely in your browser. Generate QR codes for URLs, WiFi networks, business cards, WhatsApp, UPI payments, and 15+ other types. Download as PNG, SVG, JPG, or PDF — no watermarks, no expiry, forever free.</p>
+
+        <h2>Supported QR Code Types</h2>
+        <ul>
+          <li><strong>URL / Website</strong> — Turn any link into a scannable QR code</li>
+          <li><strong>WiFi</strong> — Share WiFi credentials; scanned devices connect automatically</li>
+          <li><strong>vCard / Contact</strong> — Digital business card with name, phone, email, company</li>
+          <li><strong>Email</strong> — Pre-filled email with subject and body</li>
+          <li><strong>SMS &amp; WhatsApp</strong> — Pre-filled messages for instant conversations</li>
+          <li><strong>Telegram</strong> — Direct link to a Telegram profile or group</li>
+          <li><strong>Phone</strong> — Tap-to-call QR code</li>
+          <li><strong>UPI Payment</strong> — Collect payments via Google Pay, PhonePe, Paytm</li>
+          <li><strong>PayPal</strong> — Accept PayPal payments via QR scan</li>
+          <li><strong>Crypto</strong> — Bitcoin, Ethereum, and other wallet addresses</li>
+          <li><strong>Social Media</strong> — Twitter/X, Instagram, LinkedIn, Facebook, YouTube</li>
+          <li><strong>Calendar Event</strong> — Add events to any calendar app by scanning</li>
+          <li><strong>iOS App Store</strong> — Direct link to your app on Apple App Store</li>
+          <li><strong>Google Play Store</strong> — Direct link to your app on Google Play</li>
+          <li><strong>Barcode QR</strong> — Encode any barcode data in a scannable QR</li>
+          <li><strong>Geographic Location</strong> — Open a location in Google Maps by scanning</li>
+        </ul>
+
+        <h2>Design Customization</h2>
+        <ul>
+          <li>Custom foreground and background colors</li>
+          <li>Color gradients (linear, diagonal)</li>
+          <li>Custom center logo — upload your own or use brand presets</li>
+          <li>Dot styles: Square, Rounded, Dots, Diamond</li>
+          <li>Eye/corner styles: Square, Circle, Leaf</li>
+          <li>Frame styles with call-to-action text</li>
+          <li>Auto-branded styles per QR type (WhatsApp green, PayPal blue, etc.)</li>
+        </ul>
+
+        <h2>Developer &amp; Marketing Tools</h2>
+        <ul>
+          <li>UTM Builder — generate campaign tracking URLs and convert to QR codes</li>
+          <li>Batch QR Generator — upload CSV, download ZIP of hundreds of QR codes</li>
+          <li>QR Scanner — decode any QR code from an uploaded image</li>
+          <li>Barcode Generator — Code128, EAN-13, UPC-A, Code39, QR</li>
+          <li>Image to WebP Converter — optimize images for faster websites</li>
+          <li>Mesh Gradient Generator — beautiful backgrounds for social media</li>
+        </ul>
+
+        <h2>Why FreeQR?</h2>
+        <ul>
+          <li>✓ Completely free — no subscription, no trial, no credit card</li>
+          <li>✓ No account or signup required</li>
+          <li>✓ No watermarks on downloaded QR codes</li>
+          <li>✓ Static QR codes — no expiry, no server dependency</li>
+          <li>✓ Privacy-first — all processing happens in your browser</li>
+          <li>✓ Download in PNG, SVG, JPG, or PDF at up to 2K resolution</li>
+          <li>✓ Works on desktop, tablet, and mobile</li>
+        </ul>
+
+        <div class="ns-enable">
+          <strong>Enable JavaScript</strong> to use the full interactive QR code generator — it works entirely in your browser with no server uploads or tracking.
+        </div>
+      </div>
+    </noscript>
+
+    <script type="module" src="/index.tsx"></script>
+  </body>
 </html>

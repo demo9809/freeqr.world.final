@@ -1,0 +1,112 @@
+# ═══════════════════════════════════════════════════
+# robots.txt — FreeQR.world
+# Last updated: 2026-03
+# ═══════════════════════════════════════════════════
+
+# ── ALL BOTS: general rules ──────────────────────────
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://www.freeqr.world/sitemap.xml
+
+
+# ════════════════════════════════════════════════════
+# SEARCH / RETRIEVAL BOTS — ALLOW
+# These return real traffic back to your site.
+# ════════════════════════════════════════════════════
+
+# Googlebot — Google Search
+User-agent: Googlebot
+Allow: /
+
+# Bingbot — Bing Search (also feeds ChatGPT Search)
+User-agent: bingbot
+Allow: /
+
+# ChatGPT Search / OpenAI retrieval (sends traffic)
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+
+# Perplexity Search (sends traffic)
+User-agent: PerplexityBot
+Allow: /
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+
+# Yahoo / Slurp
+User-agent: Slurp
+Allow: /
+
+# Yandex
+User-agent: YandexBot
+Allow: /
+
+# Baidu
+User-agent: Baiduspider
+Allow: /
+
+# Apple Search
+User-agent: Applebot
+Allow: /
+
+
+# ════════════════════════════════════════════════════
+# AI TRAINING BOTS — BLOCK
+# These harvest data to train models but send no traffic.
+# ════════════════════════════════════════════════════
+
+# OpenAI training (NOT ChatGPT Search)
+User-agent: GPTBot
+Disallow: /
+
+# Anthropic training (NOT Claude search)
+User-agent: anthropic-ai
+Disallow: /
+User-agent: ClaudeBot
+Disallow: /
+
+# Meta AI training
+User-agent: Meta-ExternalAgent
+Disallow: /
+User-agent: FacebookBot
+Disallow: /
+
+# Apple AI training (NOT Apple Search)
+User-agent: Applebot-Extended
+Disallow: /
+
+# Common Crawl (feeds many models)
+User-agent: CCBot
+Disallow: /
+
+# ByteDance / TikTok
+User-agent: Bytespider
+Disallow: /
+
+# Cohere
+User-agent: cohere-ai
+Disallow: /
+
+# Amazon
+User-agent: Amazonbot
+Disallow: /
+
+# DataForSEO (scraping)
+User-agent: DataForSeoBot
+Disallow: /
+
+# Diffbot (scraping)
+User-agent: Diffbot
+Disallow: /
+
+# Scrapy / generic scraper agents
+User-agent: Scrapy
+Disallow: /
