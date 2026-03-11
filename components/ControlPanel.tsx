@@ -491,7 +491,21 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ content, setContent, design
         }
     }, [content.type, content.wifi, content.email, content.phone, content.sms, content.whatsapp, content.telegram, content.geo, content.event, content.upi, content.paypal, content.crypto, content.social, content.vcard, content.appStore, content.barcodeQR]);
 
-
+    // Keep Barcode QR center icon color in sync with the QR's fgColor
+    useEffect(() => {
+        if (content.type !== QRContentType.BARCODE_QR) return;
+        if (!design.logoUrl || !design.logoUrl.includes('image/svg+xml')) return;
+        const parts = design.logoUrl.split(',');
+        if (parts.length < 2) return;
+        try {
+            const decoded = atob(parts[1]);
+            const recolored = decoded.replace(/fill="[^"]*"/g, `fill="${design.fgColor}"`);
+            const newLogoUrl = `${parts[0]},${btoa(recolored)}`;
+            if (newLogoUrl !== design.logoUrl) {
+                setDesign(prev => ({ ...prev, logoUrl: newLogoUrl }));
+            }
+        } catch (e) { /* ignore encode errors */ }
+    }, [design.fgColor, content.type]);
 
     const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
