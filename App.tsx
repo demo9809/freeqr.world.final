@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import ControlPanel from './components/ControlPanel';
 import QRRenderer from './components/QRRenderer';
+import SEOSection from './components/SEOSection';
 import { QRContentState, QRContentType, QRDesignState, QRModuleStyle, QREyeStyle, QRFrame, PanelMode, QRHistoryEntry } from './types';
 import { loadHistory, addHistoryEntry, removeHistoryEntry, clearAllHistory } from './services/historyService';
 import { Download, Zap, ChevronDown, Copy, Check } from 'lucide-react';
@@ -291,7 +292,9 @@ function App() {
   };
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-[#F5F5F7] text-slate-900 font-sans flex flex-col lg:flex-row">
+    <div className="w-screen overflow-y-auto bg-[#F5F5F7] text-slate-900 font-sans">
+    {/* ── Tool viewport (always full screen height) ── */}
+    <div className="h-screen w-full overflow-hidden flex flex-col lg:flex-row">
 
       {/* Left Studio Panel (Controls) */}
       <div className={`
@@ -324,11 +327,11 @@ function App() {
         {/* Header - Minimal & Floating */}
         <header className="absolute top-0 left-0 right-0 h-16 flex items-center justify-between px-6 z-10 pointer-events-none">
           <div className="flex items-center gap-3 pointer-events-auto">
-            <div className="w-9 h-9 bg-black rounded-2xl flex items-center justify-center text-white shadow-lg shadow-black/10">
+            <div className="w-9 h-9 bg-black rounded-2xl flex items-center justify-center text-white shadow-lg shadow-black/10" aria-hidden="true">
               <Zap size={18} fill="currentColor" />
             </div>
             <h1 className="text-sm font-semibold tracking-tight text-slate-800 bg-white/50 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/40">
-              GenAI QR Studio
+              FreeQR — Free QR Code Generator
             </h1>
           </div>
         </header>
@@ -443,6 +446,11 @@ function App() {
 
         </main>
       </div>
+    </div>{/* end tool viewport */}
+
+    {/* ── SEO Landing Section (below the fold, crawlable) ── */}
+    <SEOSection />
+
     </div>
   );
 }
