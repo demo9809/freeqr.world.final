@@ -1553,7 +1553,14 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ content, setContent, design
                     </div>
                 )}
 
-                {activeMode === 'apps' && <AppsHub />}
+                {activeMode === 'apps' && (
+                    <AppsHub
+                        onCreateQRCode={(url) => {
+                            setContent({ type: QRContentType.URL, value: url });
+                            setActiveMode('data');
+                        }}
+                    />
+                )}
 
                 {activeMode === 'history' && (
                     <HistoryPanel

@@ -641,7 +641,11 @@ const BarcodeGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 };
 
 // ─── AppsHub (main) ───────────────────────────────────────────────────────────
-const AppsHub: React.FC = () => {
+interface AppsHubProps {
+    onCreateQRCode?: (url: string) => void;
+}
+
+const AppsHub: React.FC<AppsHubProps> = ({ onCreateQRCode }) => {
     const activeToolState = useState<string | null>(null);
     const [activeTool, setActiveTool] = activeToolState;
 
@@ -686,6 +690,7 @@ const AppsHub: React.FC = () => {
     const [utmTerm, setUtmTerm] = useState('');
     const [utmContent, setUtmContent] = useState('');
     const [generatedUtm, setGeneratedUtm] = useState('');
+    const [utmCopied, setUtmCopied] = useState(false);
 
     // --- Glitch Effect State ---
     const [glitchMode, setGlitchMode] = useState<GlitchMode>('text');
@@ -1995,17 +2000,25 @@ const AppsHub: React.FC = () => {
                                 <button
                                     onClick={() => {
                                         navigator.clipboard.writeText(generatedUtm);
-                                        // toast success
+                                        setUtmCopied(true);
+                                        setTimeout(() => setUtmCopied(false), 2000);
                                     }}
-                                    className="flex-1 py-4 bg-white text-slate-900 rounded-xl font-bold hover:bg-indigo-50 transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-1"
+                                    className={`flex-1 py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-1 ${
+                                        utmCopied
+                                            ? 'bg-emerald-500 text-white'
+                                            : 'bg-white text-slate-900 hover:bg-indigo-50'
+                                    }`}
                                 >
-                                    <Copy size={20} /> Copy URL
+                                    {utmCopied ? <Check size={20} /> : <Copy size={20} />}
+                                    {utmCopied ? 'Copied!' : 'Copy URL'}
                                 </button>
                                 <button
                                     onClick={() => {
-                                        // Logic to send to QR generator
-                                        setActiveTool(null);
-                                        // You would typically update the main app state here
+                                        if (onCreateQRCode) {
+                                            onCreateQRCode(generatedUtm);
+                                        } else {
+                                            setActiveTool(null);
+                                        }
                                     }}
                                     className="flex-1 py-4 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-500 transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-1"
                                 >
