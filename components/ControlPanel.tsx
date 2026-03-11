@@ -34,6 +34,20 @@ interface ControlPanelProps {
     onClearHistory: () => void;
 }
 
+// Custom filled barcode icon — clearly visible at any size/color
+const BarcodeQRIcon: React.FC<{ size?: number; className?: string }> = ({ size = 20, className }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+        <rect x="1"  y="3" width="2" height="18" rx="0.5" />
+        <rect x="4"  y="3" width="1" height="18" rx="0.5" />
+        <rect x="6"  y="3" width="3" height="18" rx="0.5" />
+        <rect x="10" y="3" width="1" height="18" rx="0.5" />
+        <rect x="12" y="3" width="2" height="18" rx="0.5" />
+        <rect x="15" y="3" width="1" height="18" rx="0.5" />
+        <rect x="17" y="3" width="3" height="18" rx="0.5" />
+        <rect x="21" y="3" width="2" height="18" rx="0.5" />
+    </svg>
+);
+
 // Categories for grouping
 const CATEGORIES = [
     {
@@ -80,7 +94,7 @@ const TYPE_CONFIG: Record<QRContentType, { icon: React.ElementType, label: strin
     [QRContentType.CRYPTO]: { icon: Bitcoin, label: 'Crypto', desc: 'Wallet address' },
     [QRContentType.SOCIAL]: { icon: Share2, label: 'Social', desc: 'Profile link' },
     [QRContentType.APP_STORE]: { icon: Smartphone, label: 'App Store Link', desc: 'Smart iOS & Android redirect' },
-    [QRContentType.BARCODE_QR]: { icon: Barcode, label: 'Barcode QR', desc: 'Scan QR → see barcode' },
+    [QRContentType.BARCODE_QR]: { icon: BarcodeQRIcon, label: 'Barcode QR', desc: 'Scan QR → see barcode' },
 };
 
 // --- Mini QR Preview Component ---
@@ -935,7 +949,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ content, setContent, design
                         </div>
 
                         {/* Data input */}
-                        <InputGroup label="Barcode Data" icon={Barcode}>
+                        <InputGroup label="Barcode Data" icon={BarcodeQRIcon}>
                             <input
                                 type="text"
                                 value={content.barcodeQR?.data || ''}
