@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free WiFi QR Code Generator — Share WiFi by Scanning | FreeQR</title>
+  <meta name="description" content="Create a free WiFi QR code in seconds. Guests scan it to connect automatically — no password typing. Supports WPA2, WPA3, WEP and open networks. No signup, no watermark." />
+  <meta name="keywords" content="wifi qr code generator, free wifi qr code, wifi qr code maker, wifi password qr code, qr code for wifi, share wifi qr code, wifi qr generator no signup" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+  <link rel="canonical" href="https://www.freeqr.world/wifi-qr-code-generator/" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Free WiFi QR Code Generator — No Signup | FreeQR" />
+  <meta property="og:description" content="Generate a WiFi QR code for free. Guests scan to connect instantly — no password needed. WPA2, WPA3, WEP supported." />
+  <meta property="og:url" content="https://www.freeqr.world/wifi-qr-code-generator/" />
+  <meta property="og:image" content="https://www.freeqr.world/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Free WiFi QR Code Generator — FreeQR" />
+  <meta name="twitter:description" content="Share WiFi credentials by scanning a QR code. Free, no account, no watermark." />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Free WiFi QR Code Generator",
+    "description": "Generate a free WiFi QR code. Guests scan to join your network automatically — no password typing required.",
+    "url": "https://www.freeqr.world/wifi-qr-code-generator/",
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "FreeQR", "item": "https://www.freeqr.world/" },
+        { "@type": "ListItem", "position": 2, "name": "WiFi QR Code Generator", "item": "https://www.freeqr.world/wifi-qr-code-generator/" }
+      ]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Create a Free WiFi QR Code",
+    "totalTime": "PT1M",
+    "step": [
+      { "@type": "HowToStep", "position": 1, "name": "Select WiFi type", "text": "Open FreeQR and click Change → select WiFi from the type selector." },
+      { "@type": "HowToStep", "position": 2, "name": "Enter network details", "text": "Enter your WiFi network name (SSID), password, and security type (WPA2 is most common)." },
+      { "@type": "HowToStep", "position": 3, "name": "Download QR code", "text": "Click Save and download your WiFi QR code as PNG or SVG — no watermark, no signup." }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "How does a WiFi QR code work?", "acceptedAnswer": { "@type": "Answer", "text": "A WiFi QR code encodes your network name (SSID), password, and security type using the standard WIFI: URI format. When someone scans it with their phone camera, the device automatically prompts them to join the network — no manual password entry needed." } },
+      { "@type": "Question", "name": "Is the WiFi QR code generator free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — completely free. No account, no watermark, no download limit. FreeQR generates your WiFi QR code entirely in your browser." } },
+      { "@type": "Question", "name": "Is my WiFi password secure?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. FreeQR generates QR codes entirely in your browser using JavaScript. Your WiFi password is never sent to any server — it stays on your device." } },
+      { "@type": "Question", "name": "What security types are supported?", "acceptedAnswer": { "@type": "Answer", "text": "FreeQR supports WPA/WPA2 (most home networks), WPA3, WEP (legacy), and open networks (no password)." } },
+      { "@type": "Question", "name": "Can I print a WiFi QR code?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Download as SVG for perfect print quality at any size — great for framed signs, table tents, and hospitality menus." } }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.6; }
+    a { color: #4f46e5; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .nav { background: white; border-bottom: 1px solid #e2e8f0; padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
+    .nav-brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; color: #1e293b; }
+    .nav-logo { width: 32px; height: 32px; background: #4f46e5; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 900; }
+    .nav-cta { background: #4f46e5; color: white; padding: 8px 20px; border-radius: 50px; font-size: 13px; font-weight: 700; }
+    .nav-cta:hover { background: #4338ca; text-decoration: none; }
+
+    .breadcrumb { max-width: 900px; margin: 20px auto 0; padding: 0 24px; font-size: 13px; color: #64748b; display: flex; align-items: center; gap: 6px; }
+    .breadcrumb a { color: #64748b; }
+
+    .hero { max-width: 900px; margin: 0 auto; padding: 48px 24px 32px; text-align: center; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: #ede9fe; color: #5b21b6; font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 50px; margin-bottom: 20px; letter-spacing: 0.5px; }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900; line-height: 1.1; letter-spacing: -1px; margin-bottom: 16px; }
+    .hero h1 span { color: #4f46e5; }
+    .hero p { font-size: 1.1rem; color: #475569; max-width: 600px; margin: 0 auto 28px; }
+    .hero-cta { display: inline-flex; align-items: center; gap-8px; background: #4f46e5; color: white; padding: 14px 32px; border-radius: 50px; font-size: 15px; font-weight: 700; transition: background 0.2s; }
+    .hero-cta:hover { background: #4338ca; text-decoration: none; }
+    .hero-sub { margin-top: 12px; font-size: 12px; color: #94a3b8; }
+
+    .features { max-width: 900px; margin: 48px auto; padding: 0 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+    .feature-card { background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; }
+    .feature-card .icon { font-size: 28px; margin-bottom: 10px; }
+    .feature-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .feature-card p { font-size: 13px; color: #64748b; line-height: 1.5; }
+
+    .section { max-width: 900px; margin: 0 auto 56px; padding: 0 24px; }
+    .section h2 { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px; }
+    .section p { color: #475569; margin-bottom: 16px; font-size: 0.95rem; }
+    .section ul { padding-left: 20px; color: #475569; font-size: 0.95rem; line-height: 2; }
+
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-top: 24px; }
+    .step { background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; }
+    .step-num { font-size: 2.5rem; font-weight: 900; color: #e2e8f0; line-height: 1; margin-bottom: 10px; }
+    .step h3 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .step p { font-size: 13px; color: #64748b; line-height: 1.5; }
+
+    .faq { max-width: 900px; margin: 0 auto 56px; padding: 0 24px; }
+    .faq h2 { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 24px; }
+    details { background: white; border: 1px solid #e2e8f0; border-radius: 14px; margin-bottom: 10px; overflow: hidden; }
+    details summary { padding: 16px 20px; font-weight: 600; font-size: 15px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+    details summary::after { content: '+'; font-size: 20px; color: #94a3b8; font-weight: 400; }
+    details[open] summary::after { content: '−'; }
+    details .answer { padding: 0 20px 16px; font-size: 14px; color: #475569; line-height: 1.7; border-top: 1px solid #f1f5f9; padding-top: 14px; }
+
+    .cta-banner { background: linear-gradient(135deg, #4f46e5, #7c3aed); border-radius: 24px; padding: 48px 32px; text-align: center; margin: 0 24px 56px; max-width: 900px; margin-left: auto; margin-right: auto; }
+    .cta-banner h2 { color: white; font-size: 1.8rem; font-weight: 800; margin-bottom: 12px; }
+    .cta-banner p { color: rgba(255,255,255,0.8); margin-bottom: 24px; }
+    .cta-banner a { background: white; color: #4f46e5; padding: 14px 32px; border-radius: 50px; font-weight: 700; font-size: 15px; display: inline-block; }
+    .cta-banner a:hover { background: #f0f0ff; text-decoration: none; }
+
+    footer { background: #0f172a; color: #64748b; text-align: center; padding: 24px; font-size: 13px; }
+    footer a { color: #94a3b8; margin: 0 8px; }
+
+    @media (max-width: 600px) { .hero { padding: 32px 16px 24px; } .features, .section, .faq { padding: 0 16px; } }
+  </style>
+</head>
+<body>
+
+  <nav class="nav" aria-label="Site navigation">
+    <a href="https://www.freeqr.world/" class="nav-brand" aria-label="FreeQR Home">
+      <div class="nav-logo">Q</div>
+      FreeQR
+    </a>
+    <a href="https://www.freeqr.world/" class="nav-cta">Generate QR Code →</a>
+  </nav>
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="https://www.freeqr.world/">FreeQR</a>
+    <span aria-hidden="true">›</span>
+    <span>WiFi QR Code Generator</span>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-badge">📶 Free WiFi QR Code Generator</div>
+    <h1>Create a <span>WiFi QR Code</span><br>Free — No Signup Required</h1>
+    <p>Share your WiFi password by printing a QR code. Guests scan it with any smartphone camera and connect instantly — no password typing, no confusion.</p>
+    <a href="https://www.freeqr.world/?type=wifi" class="hero-cta">Generate WiFi QR Code Free →</a>
+    <p class="hero-sub">No account · No watermark · Download PNG or SVG · Free forever</p>
+  </header>
+
+  <div class="features" role="list">
+    <article class="feature-card" role="listitem">
+      <div class="icon">🔓</div>
+      <h3>No Signup Required</h3>
+      <p>Generate your WiFi QR code instantly — no account, no email, no registration of any kind.</p>
+    </article>
+    <article class="feature-card" role="listitem">
+      <div class="icon">💧</div>
+      <h3>No Watermarks</h3>
+      <p>Downloaded QR codes are completely clean. Print them on any material without FreeQR branding.</p>
+    </article>
+    <article class="feature-card" role="listitem">
+      <div class="icon">🔒</div>
+      <h3>Password Stays Private</h3>
+      <p>All generation happens in your browser. Your WiFi password is never sent to any server.</p>
+    </article>
+    <article class="feature-card" role="listitem">
+      <div class="icon">📐</div>
+      <h3>SVG for Print</h3>
+      <p>Download as SVG for infinite-scale print quality. Perfect for framed signs, menus, and table cards.</p>
+    </article>
+  </div>
+
+  <section class="section" aria-labelledby="how-heading">
+    <h2 id="how-heading">How to Create a WiFi QR Code — 3 Steps</h2>
+    <p>Making a free WiFi QR code with FreeQR takes under 60 seconds and needs no account or download.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Select WiFi Type</h3>
+        <p>Open FreeQR, click "Change" and select WiFi from the type selector grid.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Enter Network Details</h3>
+        <p>Type your WiFi network name (SSID), password, and pick the security type — WPA2 for most modern routers.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Download & Print</h3>
+        <p>Click Save. Choose PNG for digital use or SVG for print. No watermark, no account needed.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="uses-heading">
+    <h2 id="uses-heading">Where to Use WiFi QR Codes</h2>
+    <p>A WiFi QR code eliminates the awkward moment of spelling out a complex password. Here are the most popular use cases:</p>
+    <ul>
+      <li><strong>Restaurants &amp; cafés</strong> — Print on menus, table cards, or the bill folder</li>
+      <li><strong>Hotels &amp; Airbnb</strong> — Put in the welcome booklet or on the TV stand</li>
+      <li><strong>Offices &amp; co-working spaces</strong> — Frame it at reception for visitor WiFi</li>
+      <li><strong>Retail shops</strong> — Let shoppers stay connected while they browse</li>
+      <li><strong>Events &amp; conferences</strong> — Post at entrances so attendees connect immediately</li>
+      <li><strong>Home</strong> — Print a small card for guests — no more reading out 20-character passwords</li>
+    </ul>
+  </section>
+
+  <section class="section" aria-labelledby="security-heading">
+    <h2 id="security-heading">Is a WiFi QR Code Secure?</h2>
+    <p>A WiFi QR code is as secure as giving someone your password verbally or written on paper — it's a convenient way to share access you've chosen to share. Your password is encoded inside the QR image. Anyone who scans it can connect to your network, so only share it with people you trust.</p>
+    <p>FreeQR specifically is secure in its generation process: all QR code creation happens locally in your browser using JavaScript. Your WiFi password is never transmitted to FreeQR servers, never stored, and never logged.</p>
+    <ul>
+      <li>Change your WiFi password if you think the QR code has been shared unintentionally</li>
+      <li>Use WPA2 or WPA3 security (avoid WEP — it's outdated and easily cracked)</li>
+      <li>Consider creating a separate "guest network" if you want to limit guest access</li>
+    </ul>
+  </section>
+
+  <section class="faq" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">WiFi QR Code — Frequently Asked Questions</h2>
+    <details>
+      <summary>How does a WiFi QR code work?</summary>
+      <div class="answer">A WiFi QR code encodes your network credentials using the standard WIFI: URI scheme (e.g. <code>WIFI:T:WPA;S:MyNetwork;P:MyPassword;;</code>). When a smartphone camera scans this code, the operating system (iOS or Android) detects the WIFI format and automatically prompts the user to join that network — no typing required.</div>
+    </details>
+    <details>
+      <summary>Does a WiFi QR code work on iPhone?</summary>
+      <div class="answer">Yes. iPhone cameras (iOS 11 and later) can scan WiFi QR codes natively. Open the Camera app, point it at the QR code, and tap the notification to connect. No third-party app needed.</div>
+    </details>
+    <details>
+      <summary>Does a WiFi QR code work on Android?</summary>
+      <div class="answer">Yes. Android phones with Google Lens or the native camera app (Android 9+) scan WiFi QR codes natively. Some older Android devices may need a QR code scanner app.</div>
+    </details>
+    <details>
+      <summary>What security types are supported?</summary>
+      <div class="answer">FreeQR supports WPA/WPA2 (the most common for home and business networks), WPA3 (newer standard), WEP (legacy), and open networks with no password.</div>
+    </details>
+    <details>
+      <summary>Is my WiFi password safe if I use FreeQR?</summary>
+      <div class="answer">Yes. FreeQR generates QR codes entirely in your browser using JavaScript. Your WiFi password is never sent to any server, never stored in any database, and never logged. The QR code is created locally on your device.</div>
+    </details>
+    <details>
+      <summary>Can I download the WiFi QR code as SVG for printing?</summary>
+      <div class="answer">Yes. FreeQR lets you download your WiFi QR code as SVG (infinitely scalable, best for print), PNG (up to 4K), JPG, or PDF. SVG is recommended for large-format printing like restaurant signage or framed prints.</div>
+    </details>
+  </section>
+
+  <div class="cta-banner" role="complementary">
+    <h2>Create Your WiFi QR Code Free — Right Now</h2>
+    <p>No signup, no watermark, no credit card. Just open FreeQR and go.</p>
+    <a href="https://www.freeqr.world/?type=wifi">Generate WiFi QR Code →</a>
+  </div>
+
+  <footer role="contentinfo">
+    <p>
+      <a href="https://www.freeqr.world/">FreeQR Home</a> ·
+      <a href="https://www.freeqr.world/vcard-qr-code-generator/">vCard QR Code</a> ·
+      <a href="https://www.freeqr.world/whatsapp-qr-code-generator/">WhatsApp QR Code</a> ·
+      <a href="https://www.freeqr.world/upi-qr-code-generator/">UPI QR Code</a>
+    </p>
+    <p style="margin-top:12px">© 2024–2026 FreeQR.world — Free WiFi QR Code Generator. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
